@@ -58,23 +58,35 @@ const loginUser =  async (req,res)=>{
               error: 'Invalid password',
             });
           }else{
-            jwt.sign({email: user.email, id:user._id, name:user.name}, process.env.JWT_SECRET,{}, (err,token)=>{
-                if(err) throw err;
-                res.cookie('token', token).json(user)
-            })
-            res.json('password match');
+            jwt.sign(
+                { email: user.email, id: user._id, name: user.name },
+                process.env.JWT_SECRET,
+                {},
+                (err, token) => {
+                    if (err) throw err;
+                    res.cookie('token', token, { httpOnly: true }).json(user);
+                });
           }
-
-
     }catch (error){
         console.log(error)
     }
 };
 
-
+const getProfile = (req,res) => {
+    const{token} = req.cookies
+    if(token){
+        jwt.verify(token,process.env.JWT_SECRET, {}, (err, user)=> {
+            if(err) throw err;
+            res.json(user)
+        })
+    }else{
+        res.json(null)
+    }
+}
 
 module.exports ={
     test,
     registerUser,
-    loginUser
+    loginUser,
+    getProfile
 }

@@ -11,6 +11,7 @@ mongoose.connect(process.env.MONGO_URL)
 .catch((err) => console.log('database not connected', err))
 
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}))

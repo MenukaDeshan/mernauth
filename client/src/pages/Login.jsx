@@ -2,6 +2,7 @@ import {useState} from "react";
 import axios from 'axios';
 import {toast} from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom'
+import '../css/form.css'
 
 export default function Login(){
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ export default function Login(){
             toast.error(data.error);
           } else {
             setData({});
-            navigate('/');  // Navigate to the home page on successful login
+            navigate('/dashboard');  // Navigate to the home page on successful login
           }
         } catch (error) {
           toast.error('An error occurred during login');
@@ -32,7 +33,7 @@ export default function Login(){
 
  
     return(
-        <div>
+        <div className="form">
         <form onSubmit={loginUser}>
             <input type='email' placeholder='enter Email' value={data.email} onChange={(e) => setData({...data,email: e.target.value})}/>
             <input type='Password' placeholder='enter Pass' value={data.password} onChange={(e) => setData({...data,password: e.target.value})}/>
